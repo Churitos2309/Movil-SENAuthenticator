@@ -1,0 +1,9 @@
+#ignorar archivos generados por flutter 
+build/
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+.idea/
+*.iml
+*.log
