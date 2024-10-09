@@ -1,8 +1,7 @@
-import 'dart:convert';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class HomeScreenAdmin extends StatefulWidget {
@@ -216,7 +215,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                             }
 
                             return Container(
-                              height: 700, // Aumenta la altura de la gráfica
+                              height: 500, // Aumenta la altura de la gráfica
                               margin: const EdgeInsets.only(bottom: 10),
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(

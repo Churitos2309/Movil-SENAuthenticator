@@ -6,15 +6,14 @@ class Panel extends StatefulWidget {
   const Panel({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _PanelState createState() => _PanelState();
 }
 
 class _PanelState extends State<Panel> {
   final ApiService apiService = ApiService();
   List<dynamic> usuarios = [];
-  List<dynamic> filteredUsuarios = []; // Lista filtrada para la búsqueda
-  String searchQuery = ''; // Query de búsqueda
+  List<dynamic> filteredUsuarios = [];
+  String searchQuery = '';
 
   @override
   void initState() {
@@ -27,7 +26,7 @@ class _PanelState extends State<Panel> {
       final data = await apiService.get('usuarios/');
       setState(() {
         usuarios = data;
-        filteredUsuarios = data; // Inicializar lista filtrada
+        filteredUsuarios = data;
       });
     } catch (e) {
       if (kDebugMode) {
@@ -43,8 +42,8 @@ class _PanelState extends State<Panel> {
     }).toList();
 
     setState(() {
-      searchQuery = query; // Actualizar el query de búsqueda
-      filteredUsuarios = filtered; // Actualizar la lista filtrada
+      searchQuery = query;
+      filteredUsuarios = filtered;
     });
   }
 
@@ -53,14 +52,14 @@ class _PanelState extends State<Panel> {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          padding: const EdgeInsets.all(8.0), // Espaciado interno
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.white, // Fondo blanco limpio
-            borderRadius: BorderRadius.circular(15.0), // Bordes más redondeados
-            boxShadow: const [
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
               BoxShadow(
-                color: Colors.black12, // Sombra suave
-                blurRadius: 10.0,
+                color: Colors.black12,
+                blurRadius: 12.0,
                 spreadRadius: 2.0,
               ),
             ],
@@ -76,20 +75,23 @@ class _PanelState extends State<Panel> {
                   decoration: InputDecoration(
                     labelText: 'Buscar por nombre',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(15.0),
                       borderSide: BorderSide(color: Colors.grey.shade400),
                     ),
                     prefixIcon: const Icon(Icons.search),
+                    filled: true,
+                    fillColor:
+                        Colors.grey.shade50, // Color de fondo de la barra
                   ),
                 ),
               ),
-              // Texto con estilo iOS
+              // Título
               const Padding(
                 padding: EdgeInsets.only(bottom: 16.0),
                 child: Text(
-                  'Resultados de usuarios',
+                  'Resultados de Usuarios',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
@@ -98,25 +100,23 @@ class _PanelState extends State<Panel> {
               ),
               // Contenedor para la tabla estilizada
               Container(
-                constraints: const BoxConstraints(
-                  maxHeight: 700, // Mantener la altura adecuada para la tabla
-                ),
+                constraints: const BoxConstraints(maxHeight: 700),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
-                      columnSpacing:
-                          28.0, // Espaciado entre columnas más amplio
+                      columnSpacing: 32.0,
                       headingTextStyle: TextStyle(
-                        fontSize: 14, // Tamaño de texto más grande
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade700,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            Colors.blueAccent, // Color del texto de encabezado
                       ),
                       dataTextStyle: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500, // Texto más claro
-                        color: Colors.black87, // Color oscuro sutil
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
                       ),
                       columns: const <DataColumn>[
                         DataColumn(label: Text('ID')),
@@ -125,11 +125,10 @@ class _PanelState extends State<Panel> {
                         DataColumn(label: Text('Estado')),
                         DataColumn(label: Text('Documentos')),
                       ],
-                      rows: _buildDataRows(), // Construir las filas de datos
+                      rows: _buildDataRows(),
                       decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(15.0), // Redondeo de bordes
-                        color: Colors.grey.shade50, // Fondo suave para la tabla
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: Colors.grey.shade50,
                       ),
                     ),
                   ),
@@ -142,7 +141,6 @@ class _PanelState extends State<Panel> {
     );
   }
 
-  // Método para construir las filas de datos
   List<DataRow> _buildDataRows() {
     return filteredUsuarios.map<DataRow>((usuario) {
       return DataRow(
@@ -157,13 +155,12 @@ class _PanelState extends State<Panel> {
           )),
           DataCell(Text(usuario['numero_documento_usuario'] ?? '')),
         ],
-        // Estilo para las filas
         color:
             WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.selected)) {
-            return Colors.blue.shade50; // Color cuando se selecciona una fila
+            return Colors.blue.shade100; // Color de fila seleccionada
           }
-          return null; // Usar el color por defecto
+          return null; // Color por defecto
         }),
       );
     }).toList();
